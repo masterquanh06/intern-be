@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 })
 
 
+
 app.post('/api/link', async (req, res) => {
     const { url } = req.body;
     try {
@@ -28,6 +29,18 @@ app.post('/api/link', async (req, res) => {
         res.status(500).json({ error: 'Lỗi khi gọi API Traodoisub' });
     }
 });
+
+app.post("/api/tok", (req, res)=> {
+    const { token } = req.body;
+    const url = `https://2fa.live/tok/${token}`;
+    axios.get(url)
+        .then(response => {
+            res.json(response.data);
+        })
+        .catch(error => {
+            res.status(500).json({ error: 'Lỗi khi gọi API get 2fa' });
+        });
+})
 
 app.listen(port, () => {
     console.log(`Server đang chạy tại http://localhost:${port}`);
